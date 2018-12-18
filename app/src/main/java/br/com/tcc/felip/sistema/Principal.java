@@ -19,7 +19,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.principal);
 
-        btn_add = (Button) findViewById(R.id.btnConfiguracao);
+        btn_add = (Button) findViewById(R.id.btnconfiguracao);
         btn_add.setOnClickListener(this);
 
 
@@ -27,7 +27,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnConfiguracao) {
+        if (v.getId() == R.id.btnconfiguracao) {
             SqliteParametroBean parBean = new SqliteParametroBean();
             SqliteParametroDao parDao = new SqliteParametroDao(getBaseContext());
 
