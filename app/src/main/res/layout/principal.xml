@@ -20,12 +20,13 @@
     <EditText
         android:id="@+id/editText5"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="0dp"
-        android:layout_marginBottom="256dp"
+        android:layout_marginBottom="253dp"
         android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_user"
         android:ems="10"
         android:hint="Usuário"
         android:inputType="textPersonName"
@@ -34,12 +35,13 @@
     <EditText
         android:id="@+id/editText6"
         android:layout_width="match_parent"
-        android:layout_height="70dp"
+        android:layout_height="60dp"
         android:layout_alignStart="@+id/editText5"
         android:layout_alignParentBottom="true"
         android:layout_marginStart="1dp"
         android:layout_marginBottom="173dp"
         android:background="#11000000"
+        android:drawableLeft="@drawable/ic_action_lock"
         android:ems="10"
         android:hint="Password"
         android:inputType="textPassword"
@@ -47,10 +49,14 @@
 
     <Button
         android:id="@+id/btnLogar"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="66dp"
-        android:text="Button" />
+        android:layout_marginBottom="85dp"
+        android:text="Login"
+        android:background="@drawable/btn_editavel"
+        />
+
+
 </RelativeLayout>
