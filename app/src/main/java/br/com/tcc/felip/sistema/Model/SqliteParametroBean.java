@@ -8,8 +8,8 @@ public class SqliteParametroBean {
     public static final String P_END_REMOTO = "p_end_ip_remoto";
     public static final String P_ESTOQUE_NEGATIVO = "p_trabalhar_com_estoque_negativo";
     public static final String P_DESCONTO_VENDEDOR = "p_desconto_do_vendedor";
-    //public static final String P_USUARIO = "p_usuario";
-    //public static final String P_SENHA = "p_senha";
+    public static final String P_USUARIO = "p_usuario";
+    public static final String P_SENHA = "p_senha";
 
 
     private Integer p_usu_codigo;
@@ -18,9 +18,24 @@ public class SqliteParametroBean {
     private String p_end_ip_remoto;
     private String p_trabalhar_com_estoque_negativo;
     private Integer p_desconto_do_vendedor;
-    //private String p_senha;
-    //private String p_usuario;
+    private String p_senha;
+    private String p_usuario;
 
+    public String getP_senha() {
+        return p_senha;
+    }
+
+    public void setP_senha(String p_senha) {
+        this.p_senha = p_senha;
+    }
+
+    public String getP_usuario() {
+        return p_usuario;
+    }
+
+    public void setP_usuario(String p_usuario) {
+        this.p_usuario = p_usuario;
+    }
 
     public Integer getP_usu_codigo() {
         return p_usu_codigo;

@@ -31,11 +31,11 @@ public class SqliteParametroDao {
                     "p_end_ip_local," +
                     "p_end_ip_remoto," +
                     "p_trabalhar_com_estoque_negativo," +
-                    "p_desconto_do_vendedor)" +
-                    //"p_usuario," +
-                    //"p_senha" +
+                    "p_desconto_do_vendedor," +
+                    "p_usuario," +
+                    "p_senha)" +
                     //  "p_qual_endereco_ip )  " +
-                    "values (?,?,?,?,?,?) ";
+                    "values (?,?,?,?,?,?,?,?) ";
 
             SQLiteStatement stmt = db.compileStatement(sql);
 
@@ -46,8 +46,8 @@ public class SqliteParametroDao {
             stmt.bindString(4, param.getP_end_ip_remoto());
             stmt.bindString(5, param.getP_trabalhar_com_estoque_negativo());
             stmt.bindLong(6, param.getP_desconto_do_vendedor());
-            //stmt.bindString(6, param.getP_usuario());
-            //stmt.bindString(7, param.getP_senha());
+            stmt.bindString(7, param.getP_usuario());
+            stmt.bindString(8, param.getP_senha());
             //stmt.bindString(9,param.getP_qual_endereco_ip());
 
             if (stmt.executeInsert() > 0) {
@@ -84,8 +84,8 @@ public class SqliteParametroDao {
                 parametro.setP_end_ip_remoto(cursor.getString(cursor.getColumnIndex(parametro.P_END_REMOTO)));
                 parametro.setP_trabalhar_com_estoque_negativo(cursor.getString(cursor.getColumnIndex(parametro.P_ESTOQUE_NEGATIVO)));
                 parametro.setP_desconto_do_vendedor(cursor.getInt(cursor.getColumnIndex(parametro.P_DESCONTO_VENDEDOR)));
-                //parametro.setP_usuario(cursor.getString(cursor.getColumnIndex(parametro.P_USUARIO)));
-                //parametro.setP_senha(cursor.getString(cursor.getColumnIndex(parametro.P_SENHA)));
+                parametro.setP_usuario(cursor.getString(cursor.getColumnIndex(parametro.P_USUARIO)));
+                parametro.setP_senha(cursor.getString(cursor.getColumnIndex(parametro.P_SENHA)));
                 // parametro.setP_qual_endereco_ip(cursor.getString(cursor.getColumnIndex(parametro.P_QUAL_END_IP)));
 
             }
@@ -109,7 +109,9 @@ public class SqliteParametroDao {
                 "p_end_ip_local=?," +
                 "p_end_ip_remoto=?," +
                 "p_trabalhar_com_estoque_negativo=?," +
-                "p_desconto_do_vendedor=? ";
+                "p_desconto_do_vendedor=?," +
+                "p_usuario=?," +
+                "p_senha=?";
         // "p_qual_endereco_ip=?  ";
         SQLiteStatement stmt = db.compileStatement(sql);
         try {
@@ -117,9 +119,11 @@ public class SqliteParametroDao {
             stmt.bindLong(1, param.getP_usu_codigo());
             stmt.bindString(2, param.getP_importar_todos_clientes());
             stmt.bindString(3, param.getP_end_ip_local());
-             stmt.bindString(4, param.getP_end_ip_remoto());
+            stmt.bindString(4, param.getP_end_ip_remoto());
             stmt.bindString(5, param.getP_trabalhar_com_estoque_negativo());
             stmt.bindLong(6, param.getP_desconto_do_vendedor());
+            stmt.bindString(7,param.getP_usuario());
+            stmt.bindString(8,param.getP_senha());
             // stmt.bindString(7, param.getP_qual_endereco_ip());
             stmt.executeUpdateDelete();
             stmt.clearBindings();
