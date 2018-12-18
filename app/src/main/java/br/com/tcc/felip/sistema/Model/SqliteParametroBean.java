@@ -21,21 +21,6 @@ public class SqliteParametroBean {
     private String p_senha;
     private String p_usuario;
 
-    public String getP_senha() {
-        return p_senha;
-    }
-
-    public void setP_senha(String p_senha) {
-        this.p_senha = p_senha;
-    }
-
-    public String getP_usuario() {
-        return p_usuario;
-    }
-
-    public void setP_usuario(String p_usuario) {
-        this.p_usuario = p_usuario;
-    }
 
     public Integer getP_usu_codigo() {
         return p_usu_codigo;
@@ -83,5 +68,21 @@ public class SqliteParametroBean {
 
     public void setP_desconto_do_vendedor(Integer p_desconto_do_vendedor) {
         this.p_desconto_do_vendedor = p_desconto_do_vendedor;
+    }
+
+    public String getP_senha() {
+        return p_senha;
+    }
+
+    public void setP_senha(String p_senha) {
+        this.p_senha = p_senha;
+    }
+
+    public String getP_usuario() {
+        return p_usuario;
+    }
+
+    public void setP_usuario(String p_usuario) {
+        this.p_usuario = p_usuario;
     }
 }

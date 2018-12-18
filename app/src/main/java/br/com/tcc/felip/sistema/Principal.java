@@ -19,7 +19,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.principal);
 
-        btn_add = (Button) findViewById(R.id.btnconfiguracao);
+        btn_add = (Button) findViewById(R.id.btnLogar);
         btn_add.setOnClickListener(this);
 
 
@@ -27,7 +27,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        if (v.getId() == R.id.btnconfiguracao) {
+        if (v.getId() == R.id.btnLogar) {
             SqliteParametroBean parBean = new SqliteParametroBean();
             SqliteParametroDao parDao = new SqliteParametroDao(getBaseContext());
 
@@ -37,6 +37,8 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
             parBean.setP_trabalhar_com_estoque_negativo("s");
             parBean.setP_end_ip_local("htpps://10.7.1.172/www.teste");
             parBean.setP_end_ip_remoto("htpps://www.teste.com");
+            parBean.setP_usuario("felippe");
+            parBean.setP_senha("123");
 
             parDao.gravar_parametro(parBean);
             Intent it = new Intent(getBaseContext(), Parametro.class);
