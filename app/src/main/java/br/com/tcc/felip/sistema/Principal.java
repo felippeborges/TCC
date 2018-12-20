@@ -3,6 +3,7 @@ package br.com.tcc.felip.sistema;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -12,15 +13,15 @@ import br.com.tcc.felip.sistema.Model.SqliteParametroDao;
 
 public class Principal extends AppCompatActivity implements View.OnClickListener {
 
-    Button btn_add;
+    Button btn_Loga;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.principal);
 
-        btn_add = (Button) findViewById(R.id.btnLogar);
-        btn_add.setOnClickListener(this);
+        btn_Loga = (Button) findViewById(R.id.btnLogar);
+        btn_Loga.setOnClickListener(this);
 
 
     }
@@ -28,21 +29,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
         if (v.getId() == R.id.btnLogar) {
-            SqliteParametroBean parBean = new SqliteParametroBean();
-            SqliteParametroDao parDao = new SqliteParametroDao(getBaseContext());
-
-            parBean.setP_usu_codigo(1);
-            parBean.setP_importar_todos_clientes("todos");
-            parBean.setP_desconto_do_vendedor(10);
-            parBean.setP_trabalhar_com_estoque_negativo("s");
-            parBean.setP_end_ip_local("htpps://10.7.1.172/www.teste");
-            parBean.setP_end_ip_remoto("htpps://www.teste.com");
-            parBean.setP_usuario("felippe");
-            parBean.setP_senha("123");
-
-            parDao.gravar_parametro(parBean);
-            Intent it = new Intent(getBaseContext(), Parametro.class);
-            startActivity(it);
+            // passa parametros para que possa ser realizado login no sistema.
         }
     }
 }
