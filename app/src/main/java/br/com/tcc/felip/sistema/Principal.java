@@ -99,8 +99,8 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     public void registra_usuario_web() {//metodo responsavel por registrar o usuario no sistema WEB caso não possua um registro
         params = new HashMap<String, String>();
 
-        params.put("usuario", txt_usuario.getText().toString());
-        params.put("senha", txt_senha.getText().toString());
+        params.put("usu_usuario", txt_usuario.getText().toString());
+        params.put("usu_senha", txt_senha.getText().toString());
 
         CustomJsonObjectRequest request = new CustomJsonObjectRequest(Request.Method.POST,
                 URL_REGISTRO,
