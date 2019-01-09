@@ -23,8 +23,7 @@ public class Util extends Activity {
 
                 conectado = true;
             }
-
-
+            
         } catch (Exception e) {
 
             conectado = false;

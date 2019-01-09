@@ -81,6 +81,21 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         return false;
     }
 
+    public void valida_usuario() {
+        declaraObjetos();
+
+        String usuario_digitado = txt_usuario.getText().toString();
+        String senha_digitado = txt_senha.getText().toString();
+
+        if (usuario_digitado.trim().equals(parBean.getP_usuario()) && senha_digitado.trim().equals(parBean.getP_senha())) {
+            //REALIZA VERIFICAÇÃO PARA ENTÃO PODER EFETUAR ACESSO AO SISTEMA.
+
+        } else {
+            // MENSAGEM CASO LOGIN OU SENHA ESTEJA ERRADO.
+        }
+    }
+
+
     public void registra_usuario_web() {//metodo responsavel por registrar o usuario no sistema WEB caso não possua um registro
         params = new HashMap<String, String>();
 
@@ -122,20 +137,13 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
             parBean = parDao.busca_parametros();
 
             if (parBean != null) {
-
-                String usuario_digitado = txt_usuario.getText().toString();
-                String senha_digitado = txt_senha.getText().toString();
-
-                if (usuario_digitado.trim().equals(parBean.getP_usuario()) && senha_digitado.trim().equals(parBean.getP_senha())) {
-                    //REALIZA VERIFICAÇÃO PARA ENTÃO PODER EFETUAR ACESSO AO SISTEMA.
-
-                }
-
+                valida_usuario();
             } else {
                 if (v.getId() == R.id.btnLogar) {
 
                     if (Util.chegarConexaoCelular(getBaseContext())) {
-                        Toast.makeText(getBaseContext(), "CONEXÃO REALIZADA COM SUCESSO", Toast.LENGTH_LONG).show();
+                        //Toast.makeText(getBaseContext(), "CONEXÃO REALIZADA COM SUCESSO", Toast.LENGTH_LONG).show();
+                        registra_usuario_web();
 
                     } else {
                         Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);//VERIFICA QUE O WIFI NÃO ESTA LIGADO, E LEVA O USUARIO PARA AS CONFIGURAÇÕES DO CELULAR NA AREA DO WIFI.
