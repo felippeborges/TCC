@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +17,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,10 +42,17 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
     private static final String TAG_SUCESSO = "sucesso";
     private static final String TAG_MENSAGEM = "mensagem";
     private static final String TAG_REQUEST = "tag";
+    private static final String TAG_USUARIO_JSON_ARRAY = "usuario_array";
+    private static final String CODIGO_USUARIO = "usu_codigo";
+    private static final String DESCONTO_USUARIO = "usu_desconto";
+    private static final String USUARIO = "usu_usuario";
+    private static final String SENHA = "usu_senha";
 
-    private SqliteParametroBean parBean;
     private SqliteParametroDao parDao;
-    private String URL_REGISTRO = "";
+    private SqliteParametroBean parBean;
+    private String URL_REGISTRO = "10.7.1.172/Sistemacomercialweb/json/registrar/registrar_usuario.php";
+
+    private JSONArray usuario_array = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,8 +118,36 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+//OBTEM RESPOSTA DO PHP
+                        try {
+                            int sucesso = (Integer) response.get(TAG_SUCESSO);
 
-                        //OBTEM RESPOSTA DO PHP
+                            switch (sucesso) {
+
+                                case 1:
+                                    usuario_array = response.getJSONArray(TAG_USUARIO_JSON_ARRAY);
+
+                                    for (int i = 0; i < usuario_array.length(); i++) {
+                                        JSONObject usuarioObj = usuario_array.getJSONObject(i);
+                                        parBean.setP_usu_codigo(usuarioObj.getInt(CODIGO_USUARIO));
+                                        parBean.setP_desconto_do_vendedor(usuarioObj.getInt(DESCONTO_USUARIO));
+                                        parBean.setP_usuario(usuarioObj.getString(USUARIO));
+                                        parBean.setP_senha(usuarioObj.getString(SENHA));
+
+                                        parDao.gravar_parametro(parBean);
+
+                                        Log.i("Script",CODIGO_USUARIO);
+                                        Log.i("Script",DESCONTO_USUARIO);
+                                        Log.i("Script",USUARIO);
+                                        Log.i("Script",SENHA);
+                                    }
+                                    break;
+                            }
+
+                        } catch (JSONException e) {
+                            Log.i("Script", e.getMessage());
+                        }
+
                     }
                 },
                 new Response.ErrorListener() {
@@ -155,4 +193,5 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         }
     }
 }
+
 
