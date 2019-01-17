@@ -6,7 +6,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 public class Db extends SQLiteOpenHelper {
 
-    public static String Dbname = "curso_appvendas.db";
+    public static String Dbname = "appvendas.db";
     public static int versao = 1;
 
     public Db(Context ctx) {

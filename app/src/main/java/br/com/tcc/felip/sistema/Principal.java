@@ -30,13 +30,13 @@ import br.com.tcc.felip.sistema.Model.SqliteParametroDao;
 import br.com.tcc.felip.sistema.Util.Util;
 import br.com.tcc.felip.sistema.Util.CustomJsonObjectRequest;
 
-public class Principal extends AppCompatActivity implements View.OnClickListener {
+public class Principal extends AppCompatActivity {
 
     private Map<String, String> params;
 
-    Button btn_Loga;
-    EditText txt_usuario;
-    EditText txt_senha;
+    private Button btn_Loga;
+    private EditText txt_usuario;
+    private EditText txt_senha;
 
     private RequestQueue rq;
     private static final String TAG_SUCESSO = "sucesso";
@@ -50,7 +50,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
 
     private SqliteParametroDao parDao;
     private SqliteParametroBean parBean;
-    private String URL_REGISTRO = "10.7.1.172/Sistemacomercialweb/json/registrar/registrar_usuario.php";
+    private String URL_REGISTRO = "192.168.1.152/Sistemacomercialweb/json/registrar/registrar_usuario.php";
 
     private JSONArray usuario_array = null;
 
@@ -60,7 +60,31 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         setContentView(R.layout.principal);
         declaraObjetos();
 
-        btn_Loga.setOnClickListener(this);
+        btn_Loga.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validar_campos()) {
+                    return;
+                }
+
+                Log.i("Script", "passou na validação");
+
+                parBean = parDao.busca_parametros();
+
+                if (parBean != null) {
+                    valida_usuario();
+                } else {
+                    if (Util.chegarConexaoCelular(getBaseContext())) {
+                        registra_usuario_web();
+
+                    } else {
+                        Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);
+                        startActivity(i);
+                        Toast.makeText(getBaseContext(),"Sem conexão com internet", Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+        });
     }
 
 
@@ -75,14 +99,14 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         parDao = new SqliteParametroDao(getBaseContext());
     }
 
-    public boolean valida_campos() {
+    public boolean validar_campos() {
         declaraObjetos();
 
-        if (txt_usuario.getText().toString().length() <= 4) {
+        if (txt_usuario.getText().toString().length() <= 2) {
             txt_usuario.setError("Seu nome de usuário está menor que o tamanho permitido");
             txt_usuario.requestFocus();
             return false;
-        } else if (txt_senha.getText().toString().trim().length() <= 4) {
+        } else if (txt_senha.getText().toString().trim().length() <= 2) {
             txt_senha.setError("Sua senha está menor que o tamanho permitido");
             txt_senha.requestFocus();
         }
@@ -97,11 +121,15 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         String usuario_digitado = txt_usuario.getText().toString();
         String senha_digitado = txt_senha.getText().toString();
 
+        parBean = parDao.busca_parametros();
+
         if (usuario_digitado.trim().equals(parBean.getP_usuario()) && senha_digitado.trim().equals(parBean.getP_senha())) {
             //REALIZA VERIFICAÇÃO PARA ENTÃO PODER EFETUAR ACESSO AO SISTEMA.
+            Toast.makeText(getBaseContext(), "VOCÊ ENTROU NO SISTEMA.", Toast.LENGTH_SHORT).show();
 
         } else {
             // MENSAGEM CASO LOGIN OU SENHA ESTEJA ERRADO.
+            Toast.makeText(getBaseContext(), "VOCÊ NÃO CONSEGUIU EFETUAR O ACESSO AO SISTEMA. ", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -121,6 +149,7 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
 //OBTEM RESPOSTA DO PHP
                         try {
                             int sucesso = (Integer) response.get(TAG_SUCESSO);
+                            String mensagem = (String) response.get(TAG_MENSAGEM);
 
                             switch (sucesso) {
 
@@ -136,11 +165,18 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
 
                                         parDao.gravar_parametro(parBean);
 
-                                        Log.i("Script",CODIGO_USUARIO);
-                                        Log.i("Script",DESCONTO_USUARIO);
-                                        Log.i("Script",USUARIO);
-                                        Log.i("Script",SENHA);
+                                        Log.i("Script", CODIGO_USUARIO);
+                                        Log.i("Script", DESCONTO_USUARIO);
+                                        Log.i("Script", USUARIO);
+                                        Log.i("Script", SENHA);
                                     }
+
+                                    Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_SHORT).show();
+
+                                    break;
+                                case 2:
+                                    Toast.makeText(getBaseContext(), mensagem, Toast.LENGTH_SHORT).show();
+
                                     break;
                             }
 
@@ -167,31 +203,6 @@ public class Principal extends AppCompatActivity implements View.OnClickListener
         rq.cancelAll(TAG_REQUEST);
     }
 
-    @Override
-    public void onClick(View v) {
-
-        if (valida_campos()) {
-
-            parBean = parDao.busca_parametros();
-
-            if (parBean != null) {
-                valida_usuario();
-            } else {
-                if (v.getId() == R.id.btnLogar) {
-
-                    if (Util.chegarConexaoCelular(getBaseContext())) {
-                        //Toast.makeText(getBaseContext(), "CONEXÃO REALIZADA COM SUCESSO", Toast.LENGTH_LONG).show();
-                        registra_usuario_web();
-
-                    } else {
-                        Intent i = new Intent(Settings.ACTION_WIFI_SETTINGS);//VERIFICA QUE O WIFI NÃO ESTA LIGADO, E LEVA O USUARIO PARA AS CONFIGURAÇÕES DO CELULAR NA AREA DO WIFI.
-                        startActivity(i);
-                        Toast.makeText(getBaseContext(), "SEM CONEXÃO COM A INTERNET", Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        }
-    }
 }
 
 
